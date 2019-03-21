@@ -1,4 +1,8 @@
-class NegociacaoController {
+import { NegociacoesView } from '../views/NegociacoesView';
+import { MensagemView } from '../views/MensagemView';
+import { Negociacao } from '../models/Negociacao';
+import { Negociacoes } from '../models/Negociacoes';
+export class NegociacaoController {
 
     private _iptValor : JQuery;
     private _iptQuantidade : JQuery;

@@ -1,3 +1,5 @@
+import { NegociacaoController } from './controllers/NegociacaoController';
+
 const ctrl = new NegociacaoController();
 
 $(".form")
