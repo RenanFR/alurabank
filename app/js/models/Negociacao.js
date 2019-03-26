@@ -7,21 +7,12 @@ System.register([], function (exports_1, context_1) {
         execute: function () {
             Negociacao = class Negociacao {
                 constructor(data, quantidade, valor) {
-                    this._data = data;
-                    this._quantidade = quantidade;
-                    this._valor = valor;
-                }
-                get valor() {
-                    return this._valor;
-                }
-                get quantidade() {
-                    return this._quantidade;
-                }
-                get data() {
-                    return this._data;
+                    this.data = data;
+                    this.quantidade = quantidade;
+                    this.valor = valor;
                 }
                 get volume() {
-                    return this._valor * this._quantidade;
+                    return this.valor * this.quantidade;
                 }
             };
             exports_1("Negociacao", Negociacao);
