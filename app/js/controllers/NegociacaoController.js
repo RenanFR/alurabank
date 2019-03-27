@@ -55,6 +55,26 @@ System.register(["../views/NegociacoesView", "../views/MensagemView", "../models
                         return true;
                     }
                 }
+                importaDados() {
+                    function isOk(res) {
+                        if (res.ok) {
+                            return res;
+                        }
+                        else {
+                            throw new Error(res.statusText);
+                        }
+                    }
+                    fetch('http://localhost:8080/dados')
+                        .then(res => isOk(res))
+                        .then(res => res.json())
+                        .then((returnData) => {
+                        returnData
+                            .map(np => new Negociacao_1.Negociacao(new Date(), np.vezes, np.montante))
+                            .forEach(neg => this._negociacoes.adc(neg));
+                        this._negociacoesView.render(this._negociacoes);
+                    })
+                        .catch(erro => console.log(erro.message));
+                }
             };
             __decorate([
                 index_1.injectFromDom('#valor')
@@ -68,6 +88,9 @@ System.register(["../views/NegociacoesView", "../views/MensagemView", "../models
             __decorate([
                 index_1.logTempoExecucao(true)
             ], NegociacaoController.prototype, "adc", null);
+            __decorate([
+                index_1.throttle(1000)
+            ], NegociacaoController.prototype, "importaDados", null);
             exports_1("NegociacaoController", NegociacaoController);
             (function (DiaSemana) {
                 DiaSemana[DiaSemana["SEG"] = 1] = "SEG";

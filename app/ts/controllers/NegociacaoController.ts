@@ -2,7 +2,8 @@ import { NegociacoesView } from '../views/NegociacoesView';
 import { MensagemView } from '../views/MensagemView';
 import { Negociacao } from '../models/Negociacao';
 import { Negociacoes } from '../models/Negociacoes';
-import { logTempoExecucao, injectFromDom } from '../helpers/decorators/index';
+import { NegociacaoParcial } from '../models/NegociacaoParcial';
+import { logTempoExecucao, injectFromDom, throttle } from '../helpers/decorators/index';
 export class NegociacaoController {
 
     @injectFromDom('#valor')
@@ -45,6 +46,29 @@ export class NegociacaoController {
         } else {
             return true;
         }
+    }
+
+    @throttle(1000)
+    importaDados() {
+
+        function isOk(res: Response) {
+            if (res.ok) {
+                return res;
+            } else {
+                throw new Error(res.statusText);
+            }
+        }
+
+        fetch('http://localhost:8080/dados')
+            .then(res => isOk(res))
+            .then(res => res.json())
+            .then((returnData: NegociacaoParcial[]) => {
+                returnData
+                .map(np => new Negociacao(new Date(), np.vezes, np.montante))
+                .forEach(neg => this._negociacoes.adc(neg));
+                this._negociacoesView.render(this._negociacoes);
+            })
+            .catch(erro => console.log(erro.message));
     }
 
 }
