@@ -2,22 +2,24 @@ import { NegociacoesView } from '../views/NegociacoesView';
 import { MensagemView } from '../views/MensagemView';
 import { Negociacao } from '../models/Negociacao';
 import { Negociacoes } from '../models/Negociacoes';
+import { logTempoExecucao, injectFromDom } from '../helpers/decorators/index';
 export class NegociacaoController {
 
+    @injectFromDom('#valor')
     private _iptValor : JQuery;
+    @injectFromDom('#quantidade')
     private _iptQuantidade : JQuery;
+    @injectFromDom('#data')
     private _iptData : JQuery;
     private _negociacoes = new Negociacoes;
     private _negociacoesView = new NegociacoesView("#negociacoesView");
     private _mensagemView = new MensagemView("#mensagemView", true);
 
     constructor() {
-        this._iptValor = $("#valor");
-        this._iptQuantidade = $("#quantidade");
-        this._iptData = $("#data");
         this._negociacoesView.render(this._negociacoes);
     }
 
+    @logTempoExecucao(true)
     adc(evento : Event) {
         
         evento.preventDefault();

@@ -1,3 +1,5 @@
+import { logTempoExecucao } from '../helpers/decorators/index';
+
 export abstract class View<T> {
     private _elemento: JQuery;
     private _scapeInnerScripts: boolean;
@@ -7,6 +9,7 @@ export abstract class View<T> {
         this._scapeInnerScripts = scapeInnerScripts;
     }
 
+    @logTempoExecucao(false)
     render(varTemplate: T) {
         let template = this.templateString(varTemplate);
         if (this._scapeInnerScripts) {
